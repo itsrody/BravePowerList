@@ -8,11 +8,11 @@ import sys
 import asyncio
 
 # Relative imports for modules within the same package (core_modules)
-from core_modules.downloader import download_filter_lists
-from core_modules.parser_validator import parse_and_validate_rules
-from core_modules.rephraser import rephrase_rules
-from core_modules.unifier_optimizer import unify_and_optimize_rules
-from core_modules.generator import generate_brave_power_list
+from downloader import download_filter_lists
+from parser_validator import parse_and_validate_rules
+from rephraser import rephrase_rules
+from unifier_optimizer import unify_and_optimize_rules
+from generator import generate_brave_power_list
 
 # --- Global Project Root Path ---
 # Assumes main_generator.py is in core_modules, so project_root is its parent.
