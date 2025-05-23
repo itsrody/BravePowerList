@@ -1,0 +1,56 @@
+{
+  "scriptlets": [
+    {
+      "name": "noop.js",
+      "aliases": ["blank.js", "empty.js"],
+      "kind": "application/javascript",
+      "resourcePath": "resources/scriptlets/noop.js",
+      "description": "An empty script, often used as a redirect target to prevent a resource from loading or executing."
+    },
+    {
+      "name": "log.js",
+      "aliases": ["ulog", "brave_log.js"],
+      "kind": "template",
+      "resourcePath": "resources/scriptlets/log.js",
+      "description": "Logs messages to the console. Arguments: {{1}} message, [{{2}} log_level (info, warn, error)]"
+    },
+    {
+      "name": "json-prune.js",
+      "kind": "template",
+      "resourcePath": "resources/scriptlets/json-prune.js",
+      "description": "Removes specified properties from JSON objects. Arguments: {{1}} path1, [{{2}} path2, ...]"
+    },
+    {
+      "name": "hide-if-contains-image.js",
+      "kind": "template",
+      "resourcePath": "resources/scriptlets/hide-if-contains-image.js",
+      "description": "Hides an element if it contains an image matching a source pattern. Arguments: {{1}} selector, {{2}} image_src_pattern"
+    },
+    {
+      "name": "ubo-annoyance-fixer.js",
+      "kind": "application/javascript",
+      "resourcePath": "resources/scriptlets/ubo-annoyance-fixer.js",
+      "description": "A generic scriptlet for fixing common annoyances, equivalent to a known uBO scriptlet."
+    },
+    {
+      "name": "abort-on-property-read.js",
+      "aliases": ["aopr.js"],
+      "kind": "template",
+      "resourcePath": "resources/scriptlets/abort-on-property-read.js",
+      "description": "Aborts script execution when a specific JS property is read. Argument: {{1}} property_path_to_watch"
+    },
+    {
+      "name": "set-cookie.js",
+      "kind": "template",
+      "resourcePath": "resources/scriptlets/set-cookie.js",
+      "description": "Sets a cookie. Arguments: {{1}} cookieName, {{2}} cookieValue, [{{3}} lifetimeInSeconds]"
+    },
+    {
+      "name": "remove-attr.js",
+      "aliases": ["ra.js"],
+      "kind": "template",
+      "resourcePath": "resources/scriptlets/remove-attr.js",
+      "description": "Removes an attribute from elements matching a selector. Arguments: {{1}} attributeName, {{2}} selector"
+    }
+  ]
+}
