@@ -1,0 +1,13 @@
+# requirements.txt for Brave Power List Generator
+
+# For concurrent downloads
+parfive
+
+# --- Optional / For Future Implementation ---
+# If/when a real python-adblock library (wrapper for adblock-rust) is used:
+python-adblock  # Replace with actual package name and version if available
+
+# For development and testing (optional, not strictly runtime):
+# pytest
+pylint
+flake8
