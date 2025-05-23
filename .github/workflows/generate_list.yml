@@ -1,0 +1,76 @@
+name: Generate Brave Power List
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+  # Triggers the workflow at 00:00 UTC every day
+  schedule:
+    - cron: '0 0 * * *'
+
+  # Triggers the workflow on push events to the default branch
+  # but only if config.json was modified
+  push:
+    branches:
+      - main # Or your default branch (e.g., master)
+    paths:
+      - 'config.json' # Path relative to the repository root
+
+permissions:
+  contents: write # Required to commit and push changes
+
+jobs:
+  build_and_commit_list:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9' # Or your desired Python version (e.g., 3.7+, 3.8, 3.9, 3.10, 3.11)
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install parfive # Add other dependencies if any (e.g., python-adblock if it were a real package)
+          # If you have a requirements.txt:
+          # pip install -r requirements.txt
+
+      - name: Run Brave Power List Generator
+        run: python core_modules/main_generator.py --config config.json
+        # Ensure config.json is at the root of your repository or adjust path
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          # For more specific bot user:
+          # git config --global user.name "BravePowerList Bot"
+          # git config --global user.email "bravepowerlist-bot@example.com"
+
+      - name: Commit and push if changes
+        run: |
+          # Determine the output filename from config.json
+          # This is a bit tricky in bash, a small Python script could read it,
+          # or you can hardcode it if it's stable.
+          # For this example, we'll assume it's "BravePowerList.txt" as per typical config.
+          # A more robust way would be to have your Python script output the filename it used.
+          OUTPUT_FILE=$(python -c "import json; f=open('config.json'); data=json.load(f); print(data.get('output_filename', 'BravePowerList.txt')); f.close()")
+          echo "Output file is: $OUTPUT_FILE"
+
+          git add "$OUTPUT_FILE"
+          # If your script generates other files that need to be committed (e.g., custom_scriptlets/*.js), add them too:
+          # git add custom_scriptlets/*.js
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Automated update: Regenerate Brave Power List ($(date -u +'%Y-%m-%d %H:%M:%S UTC'))"
+            # Attempt to push. If another process pushed since checkout, this might fail.
+            # Consider adding retry logic or using a more sophisticated pull/rebase/push strategy if conflicts are common.
+            git push
+            echo "Changes committed and pushed."
+          fi
